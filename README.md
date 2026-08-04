@@ -1,8 +1,8 @@
 # Tutorial 02 – Express + TypeScript + EJS (MVC con libros)
 
-## Tarea: ¿Puede detectar los más de 10 errores que hemos introducido en el código de este tutorial?
+## ¿Puede detectar los más de 10 errores que hemos introducido en el código de este tutorial?
 
-Durante el desarrollo del tutorial fui llevando un registro de las inconsistencias y errores que encontré, tanto los que me generaron fallos reales al correr la aplicación como los que son "silenciosos" (no rompen el programa, pero son malas prácticas o producen resultados incorrectos). A continuación los detallo:
+Durante el desarrollo del tutorial fui llevando un registro de las inconsistencias y errores que encontré, tanto los que me generaron fallos reales al correr la aplicación como los que son silenciosos que no rompen el programa, pero son malas prácticas o producen resultados incorrectos, aqui estan los 10 errores que encontre:
 
 1. **Inconsistencia de mayúsculas en la propiedad `Category`/`category`.** El modelo `Book` define la propiedad como `Category` (con mayúscula inicial), pero las vistas `books.ejs` y `show.ejs` (en el párrafo descriptivo) la referencian como `book.category` (minúscula). Como JavaScript/TypeScript es *case-sensitive*, esto no lanza error, pero la categoría del libro nunca se muestra en esos lugares (aparece como `undefined`).
 
@@ -30,7 +30,7 @@ Durante el desarrollo del tutorial fui llevando un registro de las inconsistenci
 
 ---
 
-## Propuesta de versión mejorada (sin librerías ni módulos de terceros)
+## Propuesta de versión mejorada 
 
 La idea es mantener la misma estructura de carpetas del tutorial (`models`, `data`, `controllers`, `routes`, `views`), pero corrigiendo la organización y consistencia del código:
 
