@@ -24,6 +24,12 @@ Mismo tutorial, mismas carpetas, pero corrigiendo consistencia y errores:
 - **Rutas:** usar el nombre corregido `mainPoint` y agregar un manejador de rutas no encontradas (404).
 - **Vistas:** usar `book.category` en todos lados, quitar el parche `typeof viewData !== 'undefined'`, formatear precios con `.toFixed(2)`, y crear una vista `error.ejs` para los mensajes de error.
 
-### Conclusión
+## Tutorial 04 – SPA/CSR con Vue.js (interfaces, servicios, Pinia y LocalStorage)
 
-El ejercicio permitió ver cómo errores "silenciosos" de casing (mayúsculas/minúsculas) y de convenciones de nombres pueden pasar desapercibidos en un IDE pero causar fallos reales al correr en sistemas de archivos sensibles a mayúsculas, y cómo la falta de tipado fuerte (`any`) oculta problemas que TypeScript debería atrapar en tiempo de compilación. La versión mejorada no requiere librerías adicionales: basta con aplicar consistencia de nombres, tipado correcto y manejo explícito de casos de error.
+### ¿Encuentra ventajas versus la versión anterior? (Parte B)
+
+Sí. Antes, en la Parte A, la vista `BooksIndexView.vue` importaba `books` directamente desde `data/books.ts`, es decir, la vista sabía exactamente de dónde venían los datos y cómo estaban estructurados. Con la capa de servicios, la vista ya no le importa el origen de los datos: solo le pide a `BookService.getBooks()` que se los dé. Esto trae varias ventajas, como el desacoplamiento entre la vista y el origen de los datos por ejemplo si mañana cambio de dónde vienen los libros, solo modifico `BookService.ts` sin tocar las vistas, la reutilización de esa misma lógica de acceso a datos en varias vistas, y una organización más limpia que separa cómo obtengo los datos de cómo los muestro.
+
+### ¿Puede entender la diferencia entre esta versión y la anterior? (Parte C)
+
+Sí, la diferencia principal está en la persistencia de los datos. En la versión anterior, los libros vivían solo en memoria dentro de un array de TypeScript, así que cada vez que recargaba la página los datos volvían a su estado original y cualquier libro que creara se perdía. Con esta version los datos viven en un store de Pinia que se sincroniza automáticamente con el LocalStorage del navegador, de modo que si creo un libro, recargo la página o cierro y vuelvo a abrir el navegador, el libro sigue ahí porque queda guardado bajo la key `piniaState`.
