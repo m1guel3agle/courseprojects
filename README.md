@@ -36,9 +36,9 @@ Sí, la diferencia principal está en la persistencia de los datos. En la versi�
 
 # Tutorial 05 — Limpieza de código
 
-El Tutorial 05 nos pedía identificar las malas prácticas escondidas en el código (mucho generado por IA) y corregirlas. Esto fue lo que encontramos y cómo lo arreglamos.
+El Tutorial 05 nos pedía identificar las malas prácticas escondidas en el código y corregirlas. Esto fue lo que encontre y como lo implemente:
 
-## Lo que encontramos
+## Lo que encontre
 
 - **`formatToCOP` duplicada** en `BooksIndexView.vue` y `BooksShowView.vue`. Cualquier cambio futuro había que hacerlo dos veces.
 - **Filtrado con `watch` en lugar de `computed`**. Funcionaba, pero era más código del necesario para algo que Vue resuelve solo con reactividad declarativa.
@@ -48,7 +48,7 @@ El Tutorial 05 nos pedía identificar las malas prácticas escondidas en el cód
 - **`isSubmitting` que no cumplía su función real**, porque la operación era síncrona y nunca daba tiempo a evitar un doble envío.
 - **El formulario de reseñas sin mensaje de éxito**, a diferencia del de creación de libros.
 
-## Cómo lo solucionamos
+## Como lo mejore
 
 1. Creamos `src/utils/formatters.ts` con una sola versión de `formatToCOP`, y la importamos donde se necesita.
 2. Cambiamos el filtrado de libros a un `computed`, eliminando el `watch` y el `ref` intermedio.
@@ -60,4 +60,4 @@ El Tutorial 05 nos pedía identificar las malas prácticas escondidas en el cód
 
 ## Resultado
 
-Mismo comportamiento para el usuario (precios en COP, filtro por categoría, reseñas), pero con menos duplicación, nombres más claros y reglas de negocio en el lugar correcto.
+Mismo comportamiento para el usuario precios en COP, filtro por categoría, reseñas, pero con menos duplicación, nombres más claros y reglas de negocio en el lugar correcto.
