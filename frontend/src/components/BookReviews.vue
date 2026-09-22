@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { ReviewService } from '@/services/ReviewService.js';
 import type { ReviewInterface } from '@/interfaces/ReviewInterface.js';
 
@@ -7,29 +7,30 @@ const props = defineProps<{
   bookId: number;
 }>();
 
-const reviews = computed(() => ReviewService.getReviewsByBookId(props.bookId));
+const reviews = ref<ReviewInterface[]>([]);
 
-type ReviewFormData = Pick<ReviewInterface, 'rating' | 'comment' | 'author'>;
-const form = ref<ReviewFormData>({
+const form = ref({
   rating: 5,
   comment: '',
   author: '',
 });
 
-const successMessage = ref('');
+const isSubmitting = ref(false);
 
-function submitReview() {
+async function submitReview() {
   if (!form.value.comment.trim()) return;
+  isSubmitting.value = true;
 
-  ReviewService.createReview({
+  await ReviewService.createReview({
     bookId: props.bookId,
-    rating: form.value.rating,
+    rating: Math.min(5, Math.max(1, form.value.rating)),
     comment: form.value.comment.trim(),
-    author: form.value.author?.trim() || undefined,
+    author: form.value.author.trim() || undefined,
   });
 
-  successMessage.value = '¡Reseña publicada!';
   form.value = { rating: 5, comment: '', author: '' };
+  isSubmitting.value = false;
+  getReviews();
 }
 
 function formatDate(iso?: string): string {
@@ -40,6 +41,14 @@ function formatDate(iso?: string): string {
     day: 'numeric',
   });
 }
+
+async function getReviews() {
+  reviews.value = await ReviewService.getReviewsByBookId(props.bookId);
+}
+
+onMounted(() => {
+  getReviews();
+});
 </script>
 
 <template>
@@ -84,12 +93,11 @@ function formatDate(iso?: string): string {
         </div>
         <button
           type="submit"
-          :disabled="!form.comment.trim()"
+          :disabled="isSubmitting || !form.comment.trim()"
           class="bg-blue-600 text-white font-medium py-2 px-4 rounded hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
         >
           Post review
         </button>
-        <p v-if="successMessage" class="text-green-600 text-sm">{{ successMessage }}</p>
       </form>
     </div>
 
