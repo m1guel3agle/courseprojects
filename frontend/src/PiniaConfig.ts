@@ -1,13 +1,9 @@
 import { createPinia } from 'pinia';
-import { watch } from 'vue';
-import { bookSeeder } from '@/stores/bookseeder.js';
-import { reviewSeeder } from '@/stores/reviewseeder.js';
 
 export default class PiniaConfig {
   public static init() {
     const pinia = createPinia();
-    const savedState = localStorage.getItem('piniaState');
-
+    /*const savedState = localStorage.getItem('piniaState');
     if (savedState) {
       pinia.state.value = JSON.parse(savedState);
     } else {
@@ -31,7 +27,7 @@ export default class PiniaConfig {
         localStorage.setItem('piniaState', JSON.stringify(state));
       },
       { deep: true },
-    );
+    );*/
 
     return pinia;
   }
